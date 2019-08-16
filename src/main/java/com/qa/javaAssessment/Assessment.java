@@ -34,8 +34,48 @@ public class Assessment {
 	// getBert("xxbeRTyy") ==> ""
 
 	public String getBert(String input) {
+		//find bert!
+		boolean foundBert1 = false;
+		boolean foundBert2 = false;
+		String letter = "";
 		
-		return "";
+		String resultLetters = "";
+		
+		for(int i = 0; i < input.length(); i++) {
+			
+			// single letter of string
+			letter = input.substring(i, i+1);
+			
+			//Check for bert!
+			if(i < input.length()-4 & (input.substring(i, i+4).toLowerCase() == "bert")) { // if there are enough array elements, check bert
+				i += 3;
+				foundBert1 = true;
+				
+				// If we have found bert 1
+				if(foundBert1) {
+					// Check for bert 2
+					
+						// if there is no bert 2
+							// add this to the resultLetters
+						
+						//if there is a bert2
+							//break the loop!
+					
+				}
+				
+			}
+			
+			
+			
+		}
+		
+		// Reverse letters
+		
+		if(foundBert1 && foundBert2) {
+			return resultLetters;
+		} else {
+			return "";
+		}
 	}
 
 	// Given three ints, a b c, one of them is small, one is medium and one is
@@ -48,71 +88,47 @@ public class Assessment {
 	// evenlySpaced(4, 6, 2) ==> true
 	// evenlySpaced(4, 6, 3) ==> false
 	// evenlySpaced(4, 60, 9) ==> false
-
+	
+	//DONE
 	public boolean evenlySpaced(int a, int b, int c) {
-		// I miss read the task... 
 		
-		// check the spaceing of each value against the other two values
-		// check which value is bigger
-		int current1 = 0;
-		int current2 = 0;
-		int intCase = 0;
-		int calc = 0;
-		
+		// Re order the integers by size
 		int[] values = {a, b, c};
+		int tempValue = 0;
+		int intCase = 0;
+		int intCase2 = 0;
 		
+		//values[0] = 77;
 		
+		//Bubble sort iterate
 		for(int i = 0; i < values.length; i++) {
-			// Get first value
-			current1 = values[i];
-			
-			for (int x = 0; x < values.length; x++) {
+			for(int valI = 0; valI < values.length-1; valI++) {
 				
-				// Ensure there are no comparisons to itself by skipping these
-				if(x == i) { continue; }
-				
-				// Get second value
-				current2 = values[x];
-				
-				//Establish first case!
-				
-				// if this is the first value in both indexes (The first loop of each (Excluding skip))
-				if(i == 0 && x == 1) {
+				if(values[valI] > values[valI+1]) {
 					
-					// if current 1 is less, take this away from the larger one
-					if (current1 < current2) {
-						intCase = current2 - current1;
-					} else { // if current 2 is less then take it away from the larger one
-						intCase = current1 - current2;
-					}
+					// Store next value that is smaller
+					tempValue = values[valI+1];
 					
-					System.out.println(intCase);
-					
-				} else { // The current value is not the first one!
-					
-					if (current1 < current2) {
-						System.out.println(current2 +  "-" + current1 + "=" + (current2 - current1));
-						calc = current2 - current1;
-						if (intCase != calc) {
-							return false;
-						}
-						
-						
-					} else { // if current 2 is less then take it away from the larger one
-						System.out.println(current1 +  "-" + current2 + "=" + (current1 - current2));
-						calc = current1 - current2;
-						if (intCase != calc) {
-							return false;
-						}
-					}
+					// switch around the values
+					values[valI+1] = values[valI];
+					values[valI] = tempValue;
 				}
-				
-				
 			}
 		}
+		//first comparison
 		
-		return true;
+		
+		intCase = values[1] - values[0];
+		intCase2 = values[2] - values[1];
+		
+		
+		if(intCase2 == intCase) {
+			return true;
+		} else {
+			return false;
+		}
 	}
+
 
 	// Given a string and an int n, return a string that removes n letters from the 'middle' of the string.
 	// The string length will be at least n, and be odd when the length of the input is odd.
@@ -139,11 +155,14 @@ public class Assessment {
 	// DONE
 	public int superBlock(String input) {
 		int highestCount = 0;
+		
 		int currentCount = 0;
+		
 		String lastVal = "";
 		
 		if (input.length() == 0) { return 0; }
 		
+		// Loop through each letter
 		for(int i = 0; i < input.length(); i++) {
 			//Each value
 			String currentVal = input.substring(i, i + 1);
@@ -304,11 +323,14 @@ public class Assessment {
 		
 		String[] sArray = arg1.split(" ");
 		
-		
+		//Get me into the first array item
 		for(int i = 0; i < sArray.length; i++) {
 			int total = 0;
+			
 			//Each item in sArray
 			String number = sArray[i];
+			
+			// Get me the first character in this string
 			for(int x = 0; x < number.length(); x++) {
 				String digit = number.substring(x, x + 1);
 				total += Integer.parseInt(digit);
