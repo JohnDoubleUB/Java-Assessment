@@ -32,48 +32,65 @@ public class Assessment {
 	// getBert("xxBertfridgebERtyy") ==> "egdirf"
 	// getBert("xxbertyy") ==> ""
 	// getBert("xxbeRTyy") ==> ""
-
+	
+	// DONE
 	public String getBert(String input) {
-		//find bert!
+
 		boolean foundBert1 = false;
 		boolean foundBert2 = false;
+		
 		String letter = "";
 		
 		String resultLetters = "";
+		
 		
 		for(int i = 0; i < input.length(); i++) {
 			
 			// single letter of string
 			letter = input.substring(i, i+1);
 			
-			//Check for bert!
-			if(i < input.length()-4 & (input.substring(i, i+4).toLowerCase() == "bert")) { // if there are enough array elements, check bert
-				i += 3;
-				foundBert1 = true;
+			
+			
+			//if we have found bert1, but haven't enough room for bert2, then break the loop!
+
+			
+			//Check for bert each time, if we find him this is true
+			if(input.substring(i, i+4).toLowerCase().equals("bert")) { // If we find bert!
 				
-				// If we have found bert 1
-				if(foundBert1) {
-					// Check for bert 2
+				
+				// If we haven't found bert 1, this newly found bert is bert1
+				if(!foundBert1) {
+					i += 3; // Skip over the next letters of bert
+					foundBert1 = true; // Found the first bert!
 					
-						// if there is no bert 2
-							// add this to the resultLetters
-						
-						//if there is a bert2
-							//break the loop!
+					// Check whether there is room for bert2! if not, break, if there is continue!
+					if(!(i < input.length()-4)) {
+						break;
+					} else {
+						continue; // Nothing else we can do once we found bert 1
+					}
 					
 				}
+
+				// If we have found bert1 and haven't found bert 2 yet, this is bert2
+				if(foundBert1) {
+					foundBert2 = true;
+					// If we find bert2 then we don't need to look further in the string (As values are between bert and bert)
+					break; // Break the loop
+				}
+				
+				
+			} else if (foundBert1) { // If we found bert1, and we've checked for bert2 this loop and he isnt present, add this letter to the result letters
+				
+				resultLetters = letter + resultLetters; // This basically reverses the order of found letters
 				
 			}
-			
-			
-			
 		}
 		
-		// Reverse letters
-		
+		// If we found bert1 and bert2, return what was in between them
 		if(foundBert1 && foundBert2) {
 			return resultLetters;
-		} else {
+		} else { // else return nothing
 			return "";
 		}
 	}
