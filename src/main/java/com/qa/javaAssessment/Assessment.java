@@ -153,11 +153,64 @@ public class Assessment {
 	// nMid("Hello", 3) ==> "Ho"
 	// nMid("Chocolate", 3) ==> "Choate"
 	// nMid("Chocolate", 1) ==> "Choclate"
-
+	
+	//DONE
 	public String nMid(String input, int a) {
 		
+		ArrayList<Integer> indexToRemove = new ArrayList<Integer>();
 		
-		return "";
+		String resultingString = "";
+		
+		//assuming odd
+		//find the middle index
+		int middleIndex = input.length() / 2;
+		int removeEitherSide = a - 1; // The amount of values to remove either side
+		if (a > 0) {
+			indexToRemove.add(middleIndex);
+		}
+		
+		int backward = 1;
+		int forward = 1;
+		
+		for(int i = 1; i <= removeEitherSide; i++) {
+			
+			// every other time
+			if(i%2 == 0) {
+				indexToRemove.add(middleIndex+forward);
+				forward++;
+			} else {
+				indexToRemove.add(middleIndex-backward);
+				backward++;
+			}
+		}
+		// for every two take one from either side of the index
+		
+		// We now have a list of indexes to exclude
+		// Construct string skipping these
+		for(int x = 0; x < input.length(); x++) {
+			String currentVal = input.substring(x, x+1);
+			
+			//Variable for verifying if this an index to exclude, assumes it isn't
+			boolean excluded = false;
+			
+			//for each index to exclude, check this against the current index
+			for(int removes : indexToRemove) {
+				if(x == removes) { // If they match, set excluded make this clear and then break this inner loop
+					excluded = true;
+					break;
+				}
+			}
+			
+			if(excluded) { // If excluded is true then we continue past this letter and go onto the next
+				continue; 
+			} else { // If this isn't one of the excluded indexes, add this to the resultingString!
+				resultingString += currentVal;
+			}
+			
+			
+		}
+		
+		return resultingString;
 	}
 
 
@@ -230,67 +283,50 @@ public class Assessment {
 	//amISearch("Am I in Amsterdam") ==> 1
 	//amISearch("I am in Amsterdam am I?") ==> 2
 	//amISearch("I have been in Amsterdam") ==> 0
-
+	
+	//DONE
 	public int amISearch(String arg1) {
-		
-		boolean foundA = false;
-		
-		String lastVal = "";
-		String currentVal = "";
-		String nextVal = "";
-		
-		boolean lastIndex = false;
 		
 		int amCount = 0;
 		
-		for(int i = 0; i < arg1.length(); i++) {
+		//every space check for "am"
+		
+		
+		//Loop through each letter check in twos, stop at 2nd to last item
+		for(int i = 0; i < arg1.length()-1; i++) {
+			// current 2 values!
+			String currentVal = arg1.substring(i, i+2).toLowerCase();
 			
-			//Store current value
-			currentVal =  arg1.substring(i, i + 1);
 			
-			//Last index?
-			lastIndex = i == arg1.length();
-			
-			//provided we are not at the last index
-			if(!lastIndex) {
-				nextVal = arg1.substring(i + 1, i + 2);
-			}
-			
-			// If first iteration we can't do anything
-//			if(i == 0) {
-//				lastVal = currentVal;
-//			}
-			
-			// If current value is an a
-			if (currentVal.equals("a")) {
-				foundA = true;
-				// Don't set last value if its a!
+			// If current value is am
+			if(currentVal.equals("am")) {
 				
+				boolean lastVal = false;
+				boolean nextVal = false;
 				
-			} else if (currentVal.equals("m") && foundA) { // if current value is a b AND last a was just seen
-				// We have found am!
+				//check last value
+				if(i == 0) { //if current value is index 0, we can safely assume there are no values before. 
+					lastVal = true;
+				} else if (arg1.substring(i-1, i).toLowerCase().equals(" ")) { //Alternatively if this isn't the first index, if the last item was " " then we are also good
+					lastVal = true;
+				} else { continue; } //if neither of these, then we know the value is invalid and we skip the rest of this iteration
 				
-				// Check surroundings
-				if(lastVal.equals(" ") && (lastIndex | nextVal.equals(" "))) {
+				//check next value
+				if(i == arg1.length()-1) { //if we are at the last possible position, then nextVal = true; (as nothing follows it)
+					nextVal = true;
+				} else if(arg1.substring(i+2, i+3).toLowerCase().equals(" ")) { //alternatively if the next value is a " " then we are also good
+					nextVal = true;
+				}
+				
+				// if nextVal and lastVal are true, then we can add this to the count!
+				if(nextVal && lastVal) {
 					amCount++;
 				}
 				
-				foundA = false;
-				lastVal = currentVal;
-				
-				
-			} else {// if the current value is neither
-				foundA = false;
-				lastVal = currentVal;
 			}
+			
 		}
-		
-		
-		
-		
-		
 		return amCount;
-		
 	}
 	
 	//given a number 
