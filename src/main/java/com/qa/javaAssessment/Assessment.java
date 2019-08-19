@@ -349,10 +349,9 @@ public class Assessment {
 			return "fizz";
 		} else if (buzz) {
 			return "buzz";
+		} else {
+			return Integer.toString(arg1);
 		}
-		
-		return null;
-		
 	}
 	
 	//Given a string split the string into the individual numbers present
@@ -372,7 +371,8 @@ public class Assessment {
 	//DONE
 	public int largest(String arg1) {
 		
-		ArrayList<Integer> totals = new ArrayList<Integer>();
+		// Return the largest number
+		int highestValue = 0;
 		
 		String[] sArray = arg1.split(" ");
 		
@@ -389,17 +389,11 @@ public class Assessment {
 				total += Integer.parseInt(digit);
 			}
 			
-			totals.add(total);
-		}
-		
-		// Return the largest number
-		int highestValue = 0;
-		
-		for(int no : totals) {
-			if(no > highestValue) {
-				highestValue = no;
+			if(total > highestValue) {
+				highestValue = total;
 			}
 		}
+		
 		return highestValue;
 	}
 }
